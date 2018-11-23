@@ -210,9 +210,8 @@ void output()
 	{
 		for (int i = 0; i < n + 1; i++)
 		{
-			outfile << rho[i][j] << " ";
+			outfile << i << ","<< j << "," << 0 << "," <<rho[i][j] <<endl;
 		}
-		outfile << endl;
 	}
 	outfile.close();
 }
