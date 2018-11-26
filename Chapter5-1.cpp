@@ -204,13 +204,21 @@ void rhouv()
 void output()
 {
 	ofstream outfile;
-	string filename = "rho.out";
+
+	/// user define filename and title
+	string filename = "rho.dat";
+	string title = "2D-velocity";
+
+	/// start write data into tecplot dat format file
 	outfile.open(filename);
+	outfile << "TITLE = \"" << title << "\"" << endl;
+	outfile << "VARIABLES = \"X\", \"Y\", \"Z\", \"U\", \"V\"" << endl;
+	outfile << "ZONE I = " << n << ", J = " << m << ", K = 1, F = point" << endl;
 	for (int j = m; j >= 0; j--)
 	{
 		for (int i = 0; i < n + 1; i++)
 		{
-			outfile << i << ","<< j << "," << 0 << "," <<rho[i][j] <<endl;
+			outfile << i << "," << j << "," << 0 << "," << u[i][j] << "," << v[i][j] << endl;
 		}
 	}
 	outfile.close();
