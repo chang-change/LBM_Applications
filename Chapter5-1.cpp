@@ -1,4 +1,4 @@
-#include <iostream>sumvel0
+#include <iostream>
 #include <omp.h>
 #include <fstream>
 #include <string>
@@ -19,7 +19,7 @@ double w[9] = { 4.0 / 9.0, 1.0 / 9.0, 1.0 / 9.0, 1.0 / 9.0, 1.0 / 9.0, 1.0 / 36.
 double cx[9] = { 0,1,0,-1,0,1,-1,-1,1 };
 double cy[9] = { 0,0,1,0,-1,1,1,-1,-1 };
 
-double u0 = 0.1;	/// u·½Ïò¸ñ×Ó³õÊ¼ËÙ¶È
+double u0 = 0.1;	/// uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½Ê¼ï¿½Ù¶ï¿½
 double rho0 = 5.0;
 const double dx = 1.0;
 const double dy = 1.0;
