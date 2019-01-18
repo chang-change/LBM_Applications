@@ -20,3 +20,9 @@ Chapter4-3 --> A.2.5
 Chapter5-1 --> A.3
 
 Chapter6-3 --> A.4.1   need to check
+
+Chapter6-4 --> A.4.2   need to check
+
+Chapter6-6 --> A.4.3   need to check
+
+Chapter7-1 --> A.5   need to check
