@@ -1,3 +1,7 @@
+/*
+complie with g++
+g++ -fopenmp -std=c++11 Chapter5-1.cpp -o run 
+*/
 #include <iostream>
 #include <omp.h>
 #include <fstream>
@@ -31,7 +35,7 @@ const int mstep = 40000;
 void init()
 {
 	omp_set_num_threads(NUM_THREADS);
-	# pragma omp parallel for shared(rho, n, m, rho0)
+	# pragma omp parallel for shared(rho, rho0)
 	for (int j = 0; j < m + 1; j++)
 	{
 		for (int i = 0; i < n + 1; i++)
@@ -42,7 +46,7 @@ void init()
 		}
 	}
 
-	# pragma omp parallel for shared(u, n, m, v, u0)
+	# pragma omp parallel for shared(u, v, u0)
 	for (int i = 1; i < n; i++)
 	{
 		u[i][m] = u0;
@@ -53,7 +57,7 @@ void init()
 void collesion()
 {
 	omp_set_num_threads(NUM_THREADS);
-	# pragma omp parallel for shared(u, v, cx, cy, rho, w, omega, feq, f, n, m)
+	# pragma omp parallel for shared(u, v, cx, cy, rho, w, omega, feq, f)
 	for (int i = 0; i < n + 1; i++)
 	{
 		for (int j = 0; j < m + 1; j++)
@@ -72,7 +76,7 @@ void collesion()
 void streaming()
 {
 	omp_set_num_threads(NUM_THREADS);
-	# pragma omp parallel for shared(f, n, m)
+	# pragma omp parallel for shared(f)
 	for (int j = 0; j < m + 1; j++)
 	{
 		/// right to left
@@ -88,7 +92,7 @@ void streaming()
 		}
 	}
 
-	# pragma omp parallel for shared(f, n, m)
+	# pragma omp parallel for shared(f)
 	/// top to bottom
 	for (int j = m; j > 0; j--)
 	{
@@ -106,7 +110,7 @@ void streaming()
 		}
 	}
 
-	# pragma omp parallel for shared(f, n, m)
+	# pragma omp parallel for shared(f)
 	/// bottom to top
 	for (int j = 0; j < m; j++)
 	{
@@ -128,7 +132,7 @@ void streaming()
 void sfbound()
 {
 	omp_set_num_threads(NUM_THREADS);
-	# pragma omp parallel for shared(f, m, u0)
+	# pragma omp parallel for shared(f, u0)
 	
 	for (int j = 0; j < m + 1; j++)
 	{
@@ -143,7 +147,7 @@ void sfbound()
 		f[6][n][j] = f[8][n][j];
 	}
 	
-	# pragma omp parallel for shared(f, n)
+	# pragma omp parallel for shared(f)
 	/// bounce back on south boundary
 	for (int i = 0; i < n + 1; i++)
 	{
@@ -152,7 +156,7 @@ void sfbound()
 		f[6][i][0] = f[8][i][0];
 	}
 
-	# pragma omp parallel for shared(f, m, n)
+	# pragma omp parallel for shared(f)
 	/// moving lid, north boundary
 	for (int i = 1; i < n; i++)
 	{
@@ -167,7 +171,7 @@ void sfbound()
 void rhouv()
 {
 	omp_set_num_threads(NUM_THREADS);
-	# pragma omp parallel for shared(f, m, n, rho)
+	# pragma omp parallel for shared(f, rho)
 	for (int j = 0; j < m + 1; j++)
 	{
 		for (int i = 0; i < n + 1; i++)
@@ -179,11 +183,11 @@ void rhouv()
 		}
 	}
 
-	# pragma omp parallel for shared(f, m, n, rho)
+	# pragma omp parallel for shared(f, rho)
 	for (int i = 1; i < n + 1; i++)
 		rho[i][m] = f[0][i][m] + f[1][i][m] + f[3][i][m] + 2.0 * (f[2][i][m] + f[6][i][m] + f[5][i][m]);
 
-	# pragma omp parallel for shared(f, m, u0)
+	# pragma omp parallel for shared(f, u0)
 	for (int j = 1; j < m; j++)
 	{
 		for (int i = 1; i < n + 1; i++)
